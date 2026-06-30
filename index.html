@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apali — Batch Podcast Generator</title>
+  <meta name="description" content="Fill a table. Click once. Get broadcast-ready podcast episodes with AI-written scripts and professional voices." />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@400,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-tint": "#5e5e5e",
+            "secondary-container": "#e3e2e2",
+            "on-background": "#1a1c1c",
+            "surface-bright": "#f9f9f9",
+            "tertiary-container": "#1a1c1c",
+            "on-primary": "#ffffff",
+            "on-error": "#ffffff",
+            "outline-variant": "#cfc4c5",
+            "primary-fixed": "#e2e2e2",
+            "outline": "#7e7576",
+            "on-secondary-container": "#646464",
+            "surface-variant": "#e2e2e2",
+            "on-error-container": "#93000a",
+            "on-primary-fixed-variant": "#474747",
+            "tertiary": "#000000",
+            "on-surface-variant": "#4c4546",
+            "inverse-primary": "#c6c6c6",
+            "surface-container-lowest": "#ffffff",
+            "on-surface": "#1a1c1c",
+            "primary-container": "#1b1b1b",
+            "background": "#f9f9f9",
+            "on-primary-fixed": "#1b1b1b",
+            "inverse-surface": "#2f3131",
+            "surface-container": "#eeeeee",
+            "on-tertiary-container": "#838484",
+            "on-primary-container": "#848484",
+            "surface": "#f9f9f9",
+            "secondary": "#5e5e5e",
+            "surface-container-low": "#f3f3f4",
+            "surface-container-highest": "#e2e2e2",
+            "surface-dim": "#dadada",
+            "primary": "#000000",
+            "inverse-on-surface": "#f0f1f1",
+            "surface-container-high": "#e8e8e8",
+            "on-secondary": "#ffffff",
+            "error": "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff"
+          },
+          borderRadius: {
+            DEFAULT: "0px", lg: "0px", xl: "0px", full: "0px"
+          },
+          spacing: {
+            "border-width-heavy": "4px",
+            "gutter": "0px",
+            "cell-padding": "1rem",
+            "border-width-standard": "2px",
+            "grid-margin": "2rem"
+          },
+          fontFamily: {
+            "body-md": ["Hanken Grotesk"],
+            "body-lg": ["Hanken Grotesk"],
+            "headline-md": ["Hanken Grotesk"],
+            "headline-lg": ["Hanken Grotesk"],
+            "label-sm": ["JetBrains Mono"],
+            "label-lg": ["JetBrains Mono"]
+          },
+          fontSize: {
+            "body-md": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+            "body-lg": ["16px", { lineHeight: "1.5", fontWeight: "500" }],
+            "headline-md": ["24px", { lineHeight: "1.2", letterSpacing: "0.05em", fontWeight: "700" }],
+            "headline-lg": ["32px", { lineHeight: "1.1", letterSpacing: "-0.02em", fontWeight: "800" }],
+            "label-sm": ["10px", { lineHeight: "1.2", fontWeight: "400" }],
+            "label-lg": ["12px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "500" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="font-body-md text-body-md bg-surface text-on-surface">
+
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header class="sticky top-0 z-50 bg-primary border-b-border-width-heavy border-primary">
+    <div class="max-w-[1440px] mx-auto px-grid-margin py-4 flex justify-between items-center">
+
+      <!-- Logo -->
+      <a href="#top" class="flex items-center gap-3 group">
+        <div class="w-8 h-8 bg-on-primary flex items-center justify-center">
+          <span class="font-label-lg text-[10px] font-black text-primary">AP</span>
+        </div>
+        <span class="font-headline-md text-[20px] font-black tracking-tighter text-on-primary uppercase">APALI</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex gap-8 items-center">
+        <a href="#features" class="font-label-lg text-label-lg uppercase text-on-primary opacity-70 hover:opacity-100 transition-none">FEATURES</a>
+        <a href="#how-it-works" class="font-label-lg text-label-lg uppercase text-on-primary opacity-70 hover:opacity-100 transition-none">HOW IT WORKS</a>
+        <a href="#early-access" class="bg-on-primary text-primary px-5 py-2 font-label-lg text-label-lg uppercase border-2 border-on-primary hover:bg-primary hover:text-on-primary hover:border-on-primary transition-none">
+          GET EARLY ACCESS
+        </a>
+      </nav>
+
+      <!-- Mobile Hamburger -->
+      <button id="hamburger" class="md:hidden text-on-primary p-1" aria-label="Toggle menu">
+        <span class="menu-icon material-symbols-outlined">menu</span>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden md:hidden border-t-2 border-on-primary border-opacity-30 bg-primary">
+      <a href="#features" class="mobile-nav-link">FEATURES</a>
+      <a href="#how-it-works" class="mobile-nav-link">HOW IT WORKS</a>
+      <a href="#early-access" class="mobile-nav-link">GET EARLY ACCESS</a>
+    </div>
+  </header>
+
+  <main id="top" class="max-w-[1440px] mx-auto border-x-border-width-standard border-primary min-h-screen">
+
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
+    <section class="grid grid-cols-1 md:grid-cols-12 border-b-border-width-heavy border-primary bg-surface overflow-hidden">
+
+      <!-- Left: Copy -->
+      <div class="md:col-span-7 p-grid-margin flex flex-col justify-center">
+        <!-- DRAFT COPY: replace status chip text -->
+        <div class="mb-4">
+          <span class="font-label-lg text-label-lg bg-primary text-on-primary px-2 py-1 uppercase">SYS_STATUS: ACTIVE</span>
+        </div>
+
+        <!-- DRAFT COPY: replace headline -->
+        <h1 class="font-headline-lg text-[56px] md:text-[88px] leading-[0.88] font-black uppercase mb-6 tracking-tighter">
+          APALI<br />PODCAST<br />ENGINE
+        </h1>
+
+        <!-- DRAFT COPY: replace tagline -->
+        <p class="font-body-lg text-body-lg max-w-lg mb-8 uppercase tracking-tight text-secondary">
+          Fill a table. Click once. Get broadcast-ready podcast episodes — AI-written scripts, professional voices, per-city audio. In minutes.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="#early-access" class="bg-primary text-on-primary px-8 py-4 font-label-lg text-label-lg uppercase border-border-width-heavy border-primary text-center hover:bg-surface hover:text-primary transition-none">
+            GET EARLY ACCESS
+          </a>
+          <a href="#how-it-works" class="bg-surface text-primary px-8 py-4 font-label-lg text-label-lg uppercase border-border-width-heavy border-primary text-center hover:bg-primary hover:text-on-primary transition-none">
+            HOW IT WORKS
+          </a>
+        </div>
+      </div>
+
+      <!-- Right: Batch Widget -->
+      <div class="md:col-span-5 border-l-border-width-heavy border-primary relative min-h-[400px] flex items-center justify-center p-8 hatch-pattern bg-surface-container">
+        <div class="w-full border-border-width-heavy border-primary p-6 bg-white shadow-brutal-lg">
+          <div class="flex justify-between items-start border-b-2 border-primary pb-4 mb-6">
+            <div>
+              <div class="font-label-lg text-label-lg font-black">BATCH #0042</div>
+              <div class="font-label-sm text-label-sm text-secondary mt-1">NEW YORK / CHICAGO / MIAMI</div>
+            </div>
+            <div class="bg-primary text-on-primary px-2 py-1 font-label-sm text-label-sm">5 EPISODES</div>
+          </div>
+
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between font-label-sm text-label-sm mb-2">
+                <span class="uppercase">Generating Scripts</span>
+                <span class="font-black">3 / 5</span>
+              </div>
+              <div class="h-6 border-2 border-primary relative overflow-hidden bg-surface-container">
+                <div id="processing-bar" class="absolute inset-y-0 left-0 bg-primary" style="width: 60%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between font-label-sm text-label-sm mb-2 text-secondary">
+                <span class="uppercase">Voice Synthesis</span>
+                <span>PENDING</span>
+              </div>
+              <div class="h-6 border-2 border-primary relative overflow-hidden bg-surface-container opacity-40">
+                <div class="absolute inset-y-0 left-0 bg-primary" style="width: 0%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between font-label-sm text-label-sm mb-2 text-secondary">
+                <span class="uppercase">Audio Mastering</span>
+                <span>PENDING</span>
+              </div>
+              <div class="h-6 border-2 border-primary relative overflow-hidden bg-surface-container opacity-40">
+                <div class="absolute inset-y-0 left-0 bg-primary" style="width: 0%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="font-label-sm text-label-sm text-secondary uppercase mt-6 pt-4 border-t-2 border-primary flex justify-between">
+            <span>PROCESSOR: ONLINE</span>
+            <span>EST. ~90 SEC</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         HOW IT WORKS
+    ============================================================ -->
+    <section id="how-it-works" class="border-b-border-width-heavy border-primary bg-surface">
+      <div class="p-grid-margin">
+        <div class="mb-12 flex justify-between items-end border-b-border-width-heavy border-primary pb-4">
+          <!-- DRAFT COPY: replace section heading -->
+          <h2 class="font-headline-lg text-[32px] md:text-[48px] uppercase font-black tracking-tighter">How It Works</h2>
+          <span class="font-label-lg text-label-lg text-secondary">3 STEPS</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3">
+          <!-- Step 1 -->
+          <div class="p-8 border-b-border-width-standard md:border-b-0 md:border-r-border-width-standard border-primary">
+            <div class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center font-black text-[28px] mb-6" style="font-family: 'Hanken Grotesk'">01</div>
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">FILL YOUR EPISODE TABLE</h3>
+            <!-- DRAFT COPY: replace step description -->
+            <p class="font-body-md text-body-md text-secondary leading-relaxed">
+              Add a city, episode title, and a one-line brief for up to 5 episodes at once. Takes two minutes. Empty rows are skipped automatically.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="p-8 border-b-border-width-standard md:border-b-0 md:border-r-border-width-standard border-primary">
+            <div class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center font-black text-[28px] mb-6" style="font-family: 'Hanken Grotesk'">02</div>
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">GENERATE SCRIPTS</h3>
+            <!-- DRAFT COPY: replace step description -->
+            <p class="font-body-md text-body-md text-secondary leading-relaxed">
+              Click Generate Batch. Claude writes a complete, broadcast-ready script for every row — including an SEO title and description for each episode.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="p-8">
+            <div class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center font-black text-[28px] mb-6" style="font-family: 'Hanken Grotesk'">03</div>
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">SYNTHESIZE & DOWNLOAD</h3>
+            <!-- DRAFT COPY: replace step description -->
+            <p class="font-body-md text-body-md text-secondary leading-relaxed">
+              Synthesize Voices sends every script to ElevenLabs. Your city-specific intros and outros are stitched in automatically. Download broadcast-ready MP3s.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FEATURES
+    ============================================================ -->
+    <section id="features" class="border-b-border-width-heavy border-primary bg-background">
+      <div class="p-grid-margin">
+        <div class="mb-12 flex justify-between items-end border-b-border-width-heavy border-primary pb-4">
+          <!-- DRAFT COPY: replace section heading -->
+          <h2 class="font-headline-lg text-[32px] md:text-[48px] uppercase font-black tracking-tighter">What's Inside</h2>
+          <span class="font-label-lg text-label-lg text-secondary">V1.0</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+          <!-- Card 1: Batch Processing -->
+          <div class="border-border-width-standard border-primary p-8 bg-white feature-card">
+            <div class="w-12 h-12 bg-primary text-on-primary flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-[20px]">table_rows</span>
+            </div>
+            <!-- DRAFT COPY: replace card title + description -->
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">BATCH PROCESSING</h3>
+            <p class="font-body-md text-body-md text-secondary mb-6 leading-relaxed">
+              Fill up to 5 episode briefs in a single table. Hit Generate — Apali queues every row and produces complete scripts in one run, with rate-safe concurrency built in.
+            </p>
+            <ul class="font-label-sm text-label-sm space-y-2 uppercase">
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Episodes Per Run</span><span>Up to 5</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Script Time</span><span>~90 Sec</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Concurrency</span><span>Rate-Safe</span></li>
+            </ul>
+          </div>
+
+          <!-- Card 2: AI Scriptwriting -->
+          <div class="border-border-width-standard border-primary p-8 bg-white feature-card">
+            <div class="w-12 h-12 bg-primary text-on-primary flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-[20px]">edit_note</span>
+            </div>
+            <!-- DRAFT COPY: replace card title + description -->
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">AI SCRIPTWRITING</h3>
+            <p class="font-body-md text-body-md text-secondary mb-6 leading-relaxed">
+              Claude writes complete, broadcast-ready scripts from a one-line brief. Optionally pulls live news headlines for topical content. Outputs a full script plus SEO title and description per episode.
+            </p>
+            <ul class="font-label-sm text-label-sm space-y-2 uppercase">
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Model</span><span>Claude Haiku</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>News Feed</span><span>Live RSS</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Output</span><span>Script + SEO</span></li>
+            </ul>
+          </div>
+
+          <!-- Card 3: Voice Synthesis -->
+          <div class="border-border-width-standard border-primary p-8 bg-white feature-card">
+            <div class="w-12 h-12 bg-primary text-on-primary flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-[20px]">record_voice_over</span>
+            </div>
+            <!-- DRAFT COPY: replace card title + description -->
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">VOICE SYNTHESIS</h3>
+            <p class="font-body-md text-body-md text-secondary mb-6 leading-relaxed">
+              ElevenLabs neural TTS brings every script to life. Configure your voice ID, tone instructions, and a global content directive once — they apply consistently across every episode in every batch.
+            </p>
+            <ul class="font-label-sm text-label-sm space-y-2 uppercase">
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Engine</span><span>ElevenLabs</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Format</span><span>MP3</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Config</span><span>Voice + Instructions</span></li>
+            </ul>
+          </div>
+
+          <!-- Card 4: City Audio Library -->
+          <div class="border-border-width-standard border-primary p-8 bg-white feature-card">
+            <div class="w-12 h-12 bg-primary text-on-primary flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-[20px]">library_music</span>
+            </div>
+            <!-- DRAFT COPY: replace card title + description -->
+            <h3 class="font-label-lg text-label-lg font-black uppercase mb-3 tracking-wider">CITY AUDIO LIBRARY</h3>
+            <p class="font-body-md text-body-md text-secondary mb-6 leading-relaxed">
+              Upload a custom intro and outro for each city or market. Apali stitches them into the final MP3 at mastering time — no DAW, no manual audio editing, no extra steps.
+            </p>
+            <ul class="font-label-sm text-label-sm space-y-2 uppercase">
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Slots</span><span>Intro + Outro</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Stitching</span><span>Auto (ffmpeg)</span></li>
+              <li class="flex justify-between border-b border-outline-variant pb-2"><span>Coverage</span><span>Per Market</span></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         EMAIL SIGNUP  <!-- EARLY ACCESS: wire up to Formspree/Mailchimp when ready -->
+    ============================================================ -->
+    <section id="early-access" class="bg-primary text-on-primary border-b-border-width-heavy border-primary">
+      <div class="p-grid-margin">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-12">
+
+          <div class="max-w-md">
+            <div class="mb-3">
+              <!-- DRAFT COPY: replace badge text -->
+              <span class="font-label-lg text-label-lg border-2 border-on-primary px-2 py-1 uppercase opacity-60">COMING SOON</span>
+            </div>
+            <!-- DRAFT COPY: replace section headline + subline -->
+            <h2 class="font-headline-lg text-[32px] md:text-[48px] uppercase font-black tracking-tighter mb-4">
+              APALI IS<br />COMING SOON
+            </h2>
+            <p class="font-body-lg text-body-lg opacity-70 uppercase tracking-tight">
+              We're putting the finishing touches on it. Drop your email and we'll notify you the moment access opens.
+            </p>
+          </div>
+
+          <div class="w-full max-w-lg">
+            <!-- EARLY ACCESS: replace with working form when ready -->
+            <form class="flex flex-col sm:flex-row border-border-width-heavy border-on-primary" onsubmit="return false;">
+              <input
+                type="email"
+                placeholder="YOUR@EMAIL.COM"
+                class="flex-grow p-4 font-label-lg text-label-lg uppercase bg-transparent border-none text-on-primary placeholder-on-primary placeholder-opacity-40 focus:ring-0 focus:outline-none"
+                style="font-family: 'JetBrains Mono', monospace;"
+              />
+              <button
+                type="submit"
+                class="bg-on-primary text-primary px-8 py-4 font-label-lg text-label-lg uppercase border-l-border-width-heavy border-on-primary hover:bg-primary hover:text-on-primary hover:border-on-primary transition-none whitespace-nowrap"
+              >
+                NOTIFY ME
+              </button>
+            </form>
+            <p class="font-label-sm text-label-sm opacity-40 uppercase mt-3">
+              No spam. No commitments. Just an email when we're live.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="bg-surface border-t-border-width-heavy border-primary">
+    <div class="max-w-[1440px] mx-auto px-grid-margin py-12">
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 border-b-2 border-primary pb-12 mb-8">
+
+        <!-- Brand col -->
+        <div class="md:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 bg-primary flex items-center justify-center">
+              <span class="font-label-lg text-[10px] font-black text-on-primary">AP</span>
+            </div>
+            <span class="font-headline-md text-[18px] font-black tracking-tighter text-primary uppercase">APALI</span>
+          </div>
+          <!-- DRAFT COPY: replace footer tagline -->
+          <p class="font-label-sm text-label-sm uppercase text-secondary leading-relaxed">
+            Automated batch podcast generation. AI scripts. Professional voices. Built for scale.
+          </p>
+        </div>
+
+        <!-- Product links -->
+        <div>
+          <h5 class="font-label-lg text-label-lg font-black uppercase mb-4">Product</h5>
+          <ul class="font-label-sm text-label-sm space-y-3 uppercase text-secondary">
+            <li><a href="#features" class="hover:text-primary underline">Features</a></li>
+            <li><a href="#how-it-works" class="hover:text-primary underline">How It Works</a></li>
+            <li><a href="#early-access" class="hover:text-primary underline">Early Access</a></li>
+          </ul>
+        </div>
+
+        <!-- Company links -->
+        <div>
+          <h5 class="font-label-lg text-label-lg font-black uppercase mb-4">Company</h5>
+          <ul class="font-label-sm text-label-sm space-y-3 uppercase text-secondary">
+            <!-- DRAFT COPY: replace with real links when ready -->
+            <li><a href="#" class="hover:text-primary underline">About</a></li>
+            <li><a href="#" class="hover:text-primary underline">Contact</a></li>
+            <li><a href="https://github.com/yosefPilip" class="hover:text-primary underline">GitHub</a></li>
+          </ul>
+        </div>
+
+        <!-- Legal links -->
+        <div>
+          <h5 class="font-label-lg text-label-lg font-black uppercase mb-4">Legal</h5>
+          <ul class="font-label-sm text-label-sm space-y-3 uppercase text-secondary">
+            <!-- DRAFT COPY: replace with real links when ready -->
+            <li><a href="#" class="hover:text-primary underline">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-primary underline">Terms of Use</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom row -->
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <!-- DRAFT COPY: replace year/name if needed -->
+        <div class="font-label-sm text-label-sm uppercase text-secondary">
+          &copy; 2026 APALI. ALL RIGHTS RESERVED.
+        </div>
+        <div class="flex items-center gap-6 font-label-sm text-label-sm uppercase text-secondary">
+          <div class="flex items-center gap-2">
+            <span class="w-2 h-2 bg-green-500 inline-block status-pulse"></span>
+            SYSTEMS NOMINAL
+          </div>
+          <span>VERSION 1.0.0</span>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Mobile bottom nav -->
+  <nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-stretch h-16 bg-surface border-t-border-width-heavy border-primary">
+    <a href="#top" class="flex flex-col items-center justify-center w-full h-full bg-primary text-on-primary">
+      <span class="material-symbols-outlined text-[18px]">home</span>
+      <span class="font-label-sm text-[9px] mt-1 uppercase">Home</span>
+    </a>
+    <a href="#features" class="flex flex-col items-center justify-center w-full h-full text-secondary hover:bg-surface-container">
+      <span class="material-symbols-outlined text-[18px]">table_rows</span>
+      <span class="font-label-sm text-[9px] mt-1 uppercase">Features</span>
+    </a>
+    <a href="#how-it-works" class="flex flex-col items-center justify-center w-full h-full text-secondary hover:bg-surface-container">
+      <span class="material-symbols-outlined text-[18px]">route</span>
+      <span class="font-label-sm text-[9px] mt-1 uppercase">How It Works</span>
+    </a>
+    <a href="#early-access" class="flex flex-col items-center justify-center w-full h-full text-secondary hover:bg-surface-container">
+      <span class="material-symbols-outlined text-[18px]">mail</span>
+      <span class="font-label-sm text-[9px] mt-1 uppercase">Access</span>
+    </a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
