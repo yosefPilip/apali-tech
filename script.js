@@ -28,19 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ---- Brutalist press micro-interaction ----
-  // Buttons and links shift 2px on mousedown to feel mechanical
-  document.querySelectorAll('button, a').forEach(el => {
-    el.addEventListener('mousedown', () => {
-      el.style.transform = 'translate(2px, 2px)';
-    });
-    el.addEventListener('mouseup', () => {
-      el.style.transform = '';
-    });
-    el.addEventListener('mouseleave', () => {
-      el.style.transform = '';
-    });
-  });
+  // Button spring interactions are handled in CSS (.btn class)
+  // via --ease-spring cubic-bezier — no JS needed.
 
   // ---- Active nav highlight on scroll ----
   const sections = document.querySelectorAll('section[id]');
